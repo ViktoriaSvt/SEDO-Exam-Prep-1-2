@@ -6,8 +6,8 @@ name: .NET
 on:
   push:
     branches: 
-     - main
-     - feature/**
+     - develop
+     - "feature/**"
 
 jobs:
   build:
