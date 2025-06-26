@@ -2,37 +2,22 @@ pipeline {
     agent any
 
     stages {
-        stage('Restore') {
-            when {
-                anyOf {
-                    branch 'main'
-                    branch pattern: 'feature/.*', comparator: 'REGEXP'
-                }
-            }
+		stage ('Checkout') {
+			steps { 
+				checkout scm
+			}
+		}
+        stage('Restore the project') {
             steps {
                 bat 'dotnet restore'
             }
         }
-
-        stage('Build') {
-            when {
-                anyOf {
-                    branch 'main'
-                    branch pattern: 'feature/.*', comparator: 'REGEXP'
-                }
-            }
+        stage('Build the project') {
             steps {
                 bat 'dotnet build --no-restore'
             }
         }
-
-        stage('Test') {
-            when {
-                anyOf {
-                    branch 'main'
-                    branch pattern: 'feature/.*', comparator: 'REGEXP'
-                }
-            }
+        stage('Test the project') {
             steps {
                 bat 'dotnet test --no-build --verbosity normal'
             }
